@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "709207511951",
+    "project_id": "taufiq-notification",
+    "storage_bucket": "taufiq-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709207511951:android:4dd15320751360f9b4f1fa",
+        "android_client_info": {
+          "package_name": "com.example.push_notification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "709207511951-4hhnj10t5poqvhhligtf2nn7iao4qfb4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh3d-97tSAvLUhAeTEyvZjW7nHFZo8jNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "709207511951-4hhnj10t5poqvhhligtf2nn7iao4qfb4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
