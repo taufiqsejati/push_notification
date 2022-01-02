@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:push_notification/services/local_notification_service.dart';
 import 'red_page.dart';
 
 import 'green_page.dart';
@@ -49,6 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
+    LocalNotificationService.initialize(context);
+
     //NOTE - gives you the message on which user taps
     //NOTE - and it opened the app from terminated state
     FirebaseMessaging.instance.getInitialMessage().then((message) {
@@ -66,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
         print(message.notification!.body);
         print(message.notification!.title);
       }
+      LocalNotificationService.display(message);
     });
 
     //NOTE - When the app is in background but oppened and user taps
