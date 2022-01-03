@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -31,11 +32,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const LoginPage(),
+      home: const MyHomePage(),
+      // home: const LoginPage(),
       routes: {
         // "login":(_) => const LoginPage(),
-        "red": (_) => RedPage(),
+        "red": (_) => const RedPage(),
         "green": (_) => const GreenPage()
       },
     );
@@ -43,13 +44,19 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late FirebaseAuth _auth;
+
+  late User? _user;
+
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -84,21 +91,22 @@ class _MyHomePageState extends State<MyHomePage> {
       // print(routeFromMessage);
       Navigator.of(context).pushNamed(routeFromMessage);
     });
+
+    _auth = FirebaseAuth.instance;
+    _user = _auth.currentUser;
+    isLoading = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: const Padding(
-          padding: EdgeInsets.all(18),
-          child: Center(
-            child: Text('You Will recieve message soon'),
-          ),
-        )
-        // This trailing comma makes auto-formatting nicer for build methods.
-        );
+    return isLoading
+        ? Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : _user != null
+            ? RedPage()
+            : LoginPage();
   }
 }

@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
         showLoading = false;
       });
 
-      if (authCredential?.user != null) {
+      if (authCredential.user != null) {
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => RedPage()));
         Navigator.of(context).pushNamed('red');
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         Spacer(),
         TextField(
-          controller: phoneController,
+          controller: otpController,
           decoration: InputDecoration(hintText: "Enter OTP"),
         ),
         SizedBox(
