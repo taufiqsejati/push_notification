@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:push_notification/login_page.dart';
 import 'package:push_notification/services/local_notification_service.dart';
 import 'red_page.dart';
 
@@ -26,12 +27,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const LoginPage(),
       routes: {
-        "red": (_) => const RedPage(),
+        // "login":(_) => const LoginPage(),
+        "red": (_) => RedPage(),
         "green": (_) => const GreenPage()
       },
     );
