@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(),
       // home: const LoginPage(),
       routes: {
-        // "login":(_) => const LoginPage(),
+        "login":(_) => const LoginPage(),
         "red": (_) => const RedPage(),
         "green": (_) => const GreenPage()
       },

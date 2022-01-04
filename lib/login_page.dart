@@ -42,7 +42,8 @@ class _LoginPageState extends State<LoginPage> {
       if (authCredential.user != null) {
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => RedPage()));
-        Navigator.of(context).pushNamed('red');
+        // Navigator.of(context).pushNamed('red');
+        Navigator.of(context).pushNamedAndRemoveUntil('red', (route) => false);
       }
     } on FirebaseException catch (e) {
       // TODO
@@ -59,47 +60,67 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       children: [
         Spacer(),
+        Center(
+          child: Text(
+            'Login With Phone Number',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+          ),
+        ),
+        SizedBox(
+          height: 25,
+        ),
         TextField(
           controller: phoneController,
           decoration: InputDecoration(hintText: "Phone Number"),
+          keyboardType: TextInputType.phone,
         ),
         SizedBox(
           height: 16,
         ),
-        FlatButton(
+        ElevatedButton(
           onPressed: () async {
-            setState(() {
-              showLoading = true;
-            });
+            if (phoneController.text.length > 0) {
+              setState(() {
+                showLoading = true;
+              });
 
-            await _auth.verifyPhoneNumber(
-              phoneNumber: phoneController.text,
-              verificationCompleted: (phoneAuthCredential) async {
-                setState(() {
-                  showLoading = false;
-                });
-              },
-              verificationFailed: (verificationFailed) async {
-                setState(() {
-                  showLoading = false;
-                });
-                _scaffoldKey.currentState!.showSnackBar(
-                    SnackBar(content: Text(verificationFailed.message!)));
-              },
-              codeSent: (verificationId, resendingToken) async {
-                setState(() {
-                  showLoading = false;
+              await _auth.verifyPhoneNumber(
+                phoneNumber: phoneController.text,
+                verificationCompleted: (phoneAuthCredential) async {
+                  setState(() {
+                    showLoading = false;
+                  });
+                },
+                verificationFailed: (verificationFailed) async {
+                  setState(() {
+                    showLoading = false;
+                  });
+                  _scaffoldKey.currentState!.showSnackBar(
+                      SnackBar(content: Text(verificationFailed.message!)));
+                },
+                codeSent: (verificationId, resendingToken) async {
+                  setState(() {
+                    showLoading = false;
 
-                  currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
-                  this.verificationId = verificationId;
-                });
-              },
-              codeAutoRetrievalTimeout: (verificationId) async {},
-            );
+                    currentState = MobileVerificationState.SHOW_OTP_FORM_STATE;
+                    this.verificationId = verificationId;
+                  });
+                },
+                codeAutoRetrievalTimeout: (verificationId) async {},
+              );
+            }
           },
           child: Text('SEND'),
-          color: Colors.blue,
-          textColor: Colors.white,
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.blue),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              )),
+              padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+              textStyle:
+                  MaterialStateProperty.all(TextStyle(color: Colors.white))),
+          // color: Colors.blue,
+          // textColor: Colors.white,
         ),
         Spacer(),
       ],
@@ -110,23 +131,43 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       children: [
         Spacer(),
+        Center(
+          child: Text(
+            'OTP',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+          ),
+        ),
+        SizedBox(
+          height: 25,
+        ),
         TextField(
           controller: otpController,
           decoration: InputDecoration(hintText: "Enter OTP"),
+          keyboardType: TextInputType.phone,
         ),
         SizedBox(
           height: 16,
         ),
-        FlatButton(
+        ElevatedButton(
           onPressed: () {
             PhoneAuthCredential phoneAuthCredential =
                 PhoneAuthProvider.credential(
-                    verificationId: verificationId, smsCode: otpController.text);
+                    verificationId: verificationId,
+                    smsCode: otpController.text);
             signInWithPhoneAuthCredential(phoneAuthCredential);
           },
           child: Text('VERIFY'),
-          color: Colors.blue,
-          textColor: Colors.white,
+
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.blue),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              )),
+              padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+              textStyle:
+              MaterialStateProperty.all(TextStyle(color: Colors.white))),
+          // color: Colors.blue,
+          // textColor: Colors.white,
         ),
         Spacer(),
       ],
@@ -139,15 +180,17 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        body: Container(
-          padding: const EdgeInsets.all(16),
-          child: showLoading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE
-                  ? getMobileFormWidget(context)
-                  : getOtpFormWidget(context),
+        body: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            child: showLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : currentState == MobileVerificationState.SHOW_MOBILE_FORM_STATE
+                    ? getMobileFormWidget(context)
+                    : getOtpFormWidget(context),
+          ),
         ));
   }
 }

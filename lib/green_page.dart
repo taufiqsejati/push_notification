@@ -7,10 +7,12 @@ class GreenPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Colors.green,
-      body: Padding(
-        padding: EdgeInsets.all(18),
-        child: Center(
-          child: Text('This is green screen'),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(18),
+          child: Center(
+            child: Text('This is green screen'),
+          ),
         ),
       ),
     );

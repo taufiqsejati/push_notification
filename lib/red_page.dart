@@ -16,17 +16,20 @@ class _RedPageState extends State<RedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.red,
-      body: const Padding(
-        padding: EdgeInsets.all(18),
-        child: Center(
-          child: Text('This is red screen'),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(18),
+          child: Center(
+            child: Text('This is Red Screen'),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.logout),
         onPressed: () async {
           await _auth.signOut();
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+          // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+          Navigator.of(context).pushNamedAndRemoveUntil('login', (route) => false);
         },
       ),
     );
