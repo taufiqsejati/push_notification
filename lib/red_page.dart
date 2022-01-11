@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:push_notification/login_page.dart';
 
 class RedPage extends StatefulWidget {
   const RedPage({Key? key}) : super(key: key);
@@ -16,7 +15,7 @@ class _RedPageState extends State<RedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.red,
-      body: SafeArea(
+      body: const SafeArea(
         child: Padding(
           padding: EdgeInsets.all(18),
           child: Center(
@@ -29,7 +28,8 @@ class _RedPageState extends State<RedPage> {
         onPressed: () async {
           await _auth.signOut();
           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
-          Navigator.of(context).pushNamedAndRemoveUntil('login', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('login', (route) => false);
         },
       ),
     );

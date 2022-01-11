@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(),
       // home: const LoginPage(),
       routes: {
-        "login":(_) => const LoginPage(),
+        "login": (_) => const LoginPage(),
         "red": (_) => const RedPage(),
         "green": (_) => const GreenPage()
       },
@@ -100,13 +102,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? Scaffold(
+        ? const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
           )
         : _user != null
-            ? RedPage()
-            : LoginPage();
+            ? const RedPage()
+            : const LoginPage();
   }
 }
