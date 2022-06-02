@@ -59,9 +59,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool isLoading = true;
 
+  Future<String?> _saveDeviceToken() async {
+    String? _deviceToken = '@';
+    try {
+      _deviceToken = await FirebaseMessaging.instance.getToken();
+    } catch (e) {
+      print("could not get the token");
+      print(e.toString());
+    }
+
+    if (_deviceToken != null) {
+      print('----------------Device Token ----------' + _deviceToken);
+    }
+    return _deviceToken;
+  }
+
   @override
   void initState() {
     super.initState();
+    _saveDeviceToken();
 
     LocalNotificationService.initialize(context);
 
